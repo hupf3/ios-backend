@@ -1,8 +1,9 @@
 package main
 
 import (
-	// _ "github.com/go-sql-driver/mysql"
-	"github.com/hupf3/ios-backend/models"
+	"ios/models"
+	// "ios/route"
+	// "ios/service"
 )
 
 // // CreateUserTable 创建用户表
