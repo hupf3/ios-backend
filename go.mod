@@ -1,4 +1,4 @@
-module ios
+module github.com/hupf3/ios-backend
 
 go 1.15
 

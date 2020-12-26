@@ -1,9 +1,9 @@
 package main
 
 import (
-	"ios/models"
-	// "ios/route"
-	// "ios/service"
+	"github.com/hupf3/ios-backend/models"
+	// "github.com/hupf3/ios-backend/route"
+	// "github.com/hupf3/ios-backend/service"
 )
 
 // // CreateUserTable 创建用户表
