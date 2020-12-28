@@ -11,8 +11,8 @@ func SetRouter() *gin.Engine {
 
 	/********** 用户信息 **********/
 	// 注册与登录
-	// router.POST("/signup", controller.SignUp)
-	// router.POST("/login", controller.Login)
+	router.POST("/signup", controllers.SignUp)
+	router.POST("/login", controllers.Login)
 
 	/********** 课程信息 **********/
 

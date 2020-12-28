@@ -9,7 +9,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `user_id` int UNSIGNED NOT NULL COMMENT '用户ID(学号)',
-  `name` varchar(50) NOT NULL COMMENT '用户姓名',
+  `username` varchar(50) NOT NULL COMMENT '用户姓名',
   `password` varchar(100) NOT NULL COMMENT '用户密码',
   
   PRIMARY KEY (`user_id`) 
