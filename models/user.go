@@ -5,7 +5,7 @@ type User struct {
 	UserID   int    `json:"user_id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
-	Avatar   string `json:"avatar"`
+	// Avatar   string `json:"avatar"`
 }
 
 // // CreateUserTable 创建用户表

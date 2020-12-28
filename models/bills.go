@@ -1,7 +1,10 @@
 package models
 
-// Bills 账单
-type Bills struct {
-	BillsID int    `json:"bills_id"`
-	Tag     string `json:"tag"`
+// Bill 账单
+type Bill struct {
+	BillID   int    `json:"bill_id"`
+	UserID   int    `json:"user_id"`
+	Money    string `json:"money"`
+	BillTime string `json:"bill_time"`
+	Tag      string `json:"tag"`
 }
