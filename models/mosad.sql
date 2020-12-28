@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `bill`;
 CREATE TABLE `bill`  (
   `bill_id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '账单ID',
   `user_id` int UNSIGNED NOT NULL COMMENT '用户ID(学号)',
-  `money` varchar(10)  NOT NULL COMMENT '账单价格',
+  `money` int  NOT NULL COMMENT '账单价格',
   `bill_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '账单时间',
   `tag` varchar(100) NOT NULL COMMENT '账单类型',
 
