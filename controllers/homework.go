@@ -19,6 +19,7 @@ func GetHomeworks(c *gin.Context) {
 	}
 	//H is a shortcut for map[string]interface{}
 	c.JSON(http.StatusOK, gin.H{
+		"msg":    "succeed",
 		"result": homeworks,
 		"count":  len(homeworks),
 	})
@@ -39,14 +40,11 @@ func GetHomeworkByID(c *gin.Context) {
 	}
 	homework, err := h.GetHomework()
 	if err != nil {
-		result = gin.H{
-			"result": nil,
-			"count":  0,
-		}
+		result = gin.H{"msg": "failed"}
 	} else {
 		result = gin.H{
+			"msg":    "succeed",
 			"result": homework,
-			"count":  1,
 		}
 	}
 	c.JSON(http.StatusOK, result)
@@ -61,10 +59,7 @@ func AddNewHomework(c *gin.Context) {
 	}
 	ID, err := h.AddHomework()
 	fmt.Print("id=", ID)
-	content := h.Content
-	c.JSON(http.StatusOK, gin.H{
-		"message": fmt.Sprintf("Successfully add homework: %s", content),
-	})
+	c.JSON(http.StatusOK, gin.H{"msg": "succeed"})
 }
 
 // DeleteHomeworkByID 利用DELETE请求方法通过id删除
@@ -83,9 +78,7 @@ func DeleteHomeworkByID(c *gin.Context) {
 	}
 	fmt.Println("delete rows ", rows)
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": fmt.Sprintf("Successfully deleted homework: %s", id),
-	})
+	c.JSON(http.StatusOK, gin.H{"msg": "succeed"})
 }
 
 // UpdateHomeworkByID 利用PUT请求方法修改作业内容信息
@@ -100,8 +93,5 @@ func UpdateHomeworkByID(c *gin.Context) {
 	}
 
 	err = h.UpdateHomework()
-	msg := fmt.Sprintf("Update homework %d successfully", h.HomeworkID)
-	c.JSON(http.StatusOK, gin.H{
-		"msg": msg,
-	})
+	c.JSON(http.StatusOK, gin.H{"msg": "succeed"})
 }
