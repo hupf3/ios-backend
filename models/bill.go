@@ -63,8 +63,6 @@ func QueryBill(billID int) (*Bill, error) {
 	row := db.QueryRow("SELECT * FROM bill where bill_id = ?", billID)
 	err := row.Scan(&b.BillID, &b.UserID, &b.Money, &b.Tag, &b.BillTime)
 
-	// fmt.Println(&b.BillID)
-
 	if err != nil {
 		fmt.Printf("Query bill failed, err:%v", err)
 		return nil, errors.New("Bill does not exists")
