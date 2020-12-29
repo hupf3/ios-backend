@@ -17,6 +17,7 @@ const (
 	IP       = "127.0.0.1" // IP地址
 )
 
+// 全局变量
 var db *sql.DB
 
 // Connect 连接数据库

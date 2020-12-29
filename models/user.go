@@ -1,5 +1,10 @@
 package models
 
+import (
+	"errors"
+	"fmt"
+)
+
 // User 用户
 type User struct {
 	UserID   int    `json:"user_id"`
@@ -8,19 +13,13 @@ type User struct {
 	// Avatar   string `json:"avatar"`
 }
 
-// // CreateUserTable 创建用户表
-// func CreateUserTable() {
-// 	sql := `CREATE TABLE IF NOT EXISTS users(
-// 		user_id INT NOT NULL AUTO_INCREMENT,
-// 		user_name VARCHAR(32) UNIQUE,
-// 		password VARCHAR(32),
-// 		bio VARCHAR(128) DEFAULT '',
-// 		PRIMARY KEY (user_id)
-// 		)ENGINE=InnoDB DEFAULT CHARSET=utf8;`
+// InsertUser 添加用户
+func InsertUser(u User) error {
+	_, err := db.Exec("INSERT INTO user(user_id, username, password) values(?, ?, ?)", u.UserID, u.Username, u.Password)
+	if err != nil {
+		fmt.Printf("Insert user failed, err:%v", err)
+		return errors.New("User exists")
+	}
 
-// 	// 执行建表
-// 	if _, err := db.Exec(sql); err != nil {
-// 		fmt.Println("Create userTable failed!", err)
-// 		return
-// 	}
-// }
+	return nil
+}
