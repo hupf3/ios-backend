@@ -11,8 +11,8 @@ import (
 // 数据库的信息
 const (
 	USERNAME = "root"      // 用户名
-	PASSWORD = "zwx20000106"  // 密码
-	DATABASE = "test"     // 数据库名字
+	PASSWORD = "huq35999"  // 密码
+	DATABASE = "mosad"     // 数据库名字
 	PORT     = "3306"      // 端口
 	IP       = "127.0.0.1" // IP地址
 )
