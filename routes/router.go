@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/zwx2000/ios-backend/controllers"
+	"github.com/hupf3/ios-backend/controllers"
 )
 
 // SetRouter 设置路由
@@ -17,10 +17,10 @@ func SetRouter() *gin.Engine {
 	/********** 课程信息 **********/
 
 	/********** 作业信息 **********/
-	router.PUT("/homework/:id", controllers.UpdateHomeworkByID)
-	router.DELETE("/homework/:id", controllers.DeleteHomeworkByID)
+	router.PUT("/homework/:hwID", controllers.UpdateHomeworkByID)
+	router.DELETE("/homework/:hwID", controllers.DeleteHomeworkByID)
 	router.GET("/homework", controllers.GetHomeworks)
-	router.GET("/homework/:id", controllers.GetHomeworkByID)
+	router.GET("/homework/:hwID", controllers.GetHomeworkByID)
 	router.POST("/homework", controllers.AddNewHomework)
 
 	/********** 账单信息 **********/
