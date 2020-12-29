@@ -14,21 +14,21 @@ func AddBill(c *gin.Context) {
 
 	if err := c.BindJSON(&b); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg":   "failed",
-			"error": "binding error",
+			"status":   "failed",
+			"msg": "binding error",
 		})
 		return
 	}
 
 	if err := models.InsertBill(b); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg":   "failed",
-			"error": err.Error(),
+			"status":   "failed",
+			"msg": err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"msg": "succeed"})
+	c.JSON(http.StatusOK, gin.H{"status": "succeed"})
 }
 
 // DeleteBillByBillID 删除账单
@@ -38,13 +38,13 @@ func DeleteBillByBillID(c *gin.Context) {
 
 	if err := models.DeleteBill(billID); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg":   "failed",
-			"error": err.Error(),
+			"status":   "failed",
+			"msg": err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"msg": "succeed"})
+	c.JSON(http.StatusOK, gin.H{"status": "succeed"})
 }
 
 // GetBillByBillID 获取账单
@@ -57,14 +57,14 @@ func GetBillByBillID(c *gin.Context) {
 
 	if b, err = models.QueryBill(billID); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg":   "failed",
-			"error": err.Error(),
+			"status":   "failed",
+			"msg": err.Error(),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"msg":  "succeed",
+		"status":  "succeed",
 		"data": *b,
 	})
 }
@@ -77,19 +77,19 @@ func UpdateBillByBillID(c *gin.Context) {
 	var b models.Bill
 	if err := c.BindJSON(&b); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg":   "failed",
-			"error": "binding error",
+			"status":   "failed",
+			"msg": "binding error",
 		})
 		return
 	}
 
 	if err := models.UpdateBill(billID, b.Money, b.Tag); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg":   "failed",
-			"error": err.Error(),
+			"status":   "failed",
+			"msg": err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"msg": "succeed"})
+	c.JSON(http.StatusOK, gin.H{"status": "succeed"})
 }

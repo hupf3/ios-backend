@@ -14,7 +14,7 @@ func SignUp(c *gin.Context) {
 	if err := c.BindJSON(&u); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
-			"error":  "binding error",
+			"msg":  "binding error",
 		})
 		return
 	}
@@ -22,7 +22,7 @@ func SignUp(c *gin.Context) {
 	if err := models.InsertUser(u); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
-			"error":  err.Error(),
+			"msg":  err.Error(),
 		})
 		return
 	}
