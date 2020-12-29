@@ -15,6 +15,7 @@ func SetRouter() *gin.Engine {
 	router.POST("/login", controllers.Login)
 
 	/********** 课程信息 **********/
+	router.GET("/courses/", controllers.GetAllCourses)                // 获取所有课程
 	router.POST("/courses/", controllers.CreateCourse)                // 增加课程信息
 	router.DELETE("/courses/:courseID", controllers.DeleteCourseByID) // 删除课程信息
 	router.GET("/courses/:courseID", controllers.GetCourseByID)       // 获取课程信息

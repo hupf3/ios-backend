@@ -15,6 +15,25 @@ type Course struct {
 	Symbol     int    `json:"symbol"`
 }
 
+// GetAllCourses 获取所有课程
+func GetAllCourses() ([]Course, error) {
+	courses := make([]Course, 0)
+	rows, err := db.Query("SELECT * FROM course")
+	if err != nil {
+		fmt.Printf("Query courses failed, err:%v", err)
+		return nil, err
+	}
+	for rows.Next() {
+		var course Course
+		if err = rows.Scan(&course.CourseID, &course.CourseName, &course.Location, &course.WeekTime, &course.TermTime, &course.Symbol); err != nil {
+			fmt.Printf("Scan course failed, err:%v", err)
+			return nil, err
+		}
+		courses = append(courses, course)
+	}
+	return courses, nil
+}
+
 // CreateCourse 创建一个课程
 func CreateCourse(c Course) (Course, error) {
 	stmt, err := db.Prepare("INSERT INTO course(course_id, course_name, location, week_time, term_time, symbol) values(?,?,?,?,?,?)")

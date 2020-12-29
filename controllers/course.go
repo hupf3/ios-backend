@@ -9,6 +9,17 @@ import (
 	"github.com/hupf3/ios-backend/models"
 )
 
+// GetAllCourses 获取所有课程
+func GetAllCourses(context *gin.Context) {
+	data := make([]models.Course, 0)
+	data, err := models.GetAllCourses()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"code": 500, "msg": "服务器错误: " + err.Error(), "data": data})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"code": 200, "msg": "获取所有课程成功", "data": data})
+}
+
 // CreateCourse 创建一个课程
 func CreateCourse(context *gin.Context) {
 	var course models.Course
