@@ -32,6 +32,7 @@ func SetRouter() *gin.Engine {
 	router.POST("/bill", controllers.AddBill)                       // 增加账单信息
 	router.DELETE("/bills/:billID", controllers.DeleteBillByBillID) // 删除账单信息
 	router.GET("/bills/:billID", controllers.GetBillByBillID)       // 获取账单信息
+	router.GET("/bills", controllers.GetAllBillsByUserID)           // 获取全部账单
 	router.PATCH("/bills/:billID", controllers.UpdateBillByBillID)  // 修改账单信息
 
 	return router
