@@ -20,6 +20,11 @@ func SetRouter() *gin.Engine {
 	router.GET("/courses/:courseID", controllers.GetCourseByID)       // 获取课程信息
 	router.PATCH("/courses/:courseID", controllers.UpdateCourseByID)  // 修改课程信息
 	/********** 作业信息 **********/
+	router.PUT("/homework/:hwID", controllers.UpdateHomeworkByID)
+	router.DELETE("/homework/:hwID", controllers.DeleteHomeworkByID)
+	router.GET("/homework", controllers.GetHomeworks)
+	router.GET("/homework/:hwID", controllers.GetHomeworkByID)
+	router.POST("/homework", controllers.AddNewHomework)
 
 	/********** 账单信息 **********/
 	router.PUT("/bill", controllers.AddBill)                        // 增加账单信息
