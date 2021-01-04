@@ -13,6 +13,8 @@ func SetRouter() *gin.Engine {
 	// 注册与登录
 	router.POST("/signup", controllers.SignUp)
 	router.POST("/login", controllers.Login)
+	// 获取当前用户信息
+	// 修改信息
 
 	/********** 课程信息 **********/
 	router.POST("/course", controllers.CreateCourse)                  // 增加课程信息
@@ -26,7 +28,7 @@ func SetRouter() *gin.Engine {
 	router.DELETE("/homework/:hwID", controllers.DeleteHomeworkByID) // 删除作业信息
 	router.GET("/homework", controllers.GetHomeworks)                // 获取全部作业
 	router.GET("/homework/:hwID", controllers.GetHomeworkByID)       // 获取作业信息
-	router.PATCH("/homework/:hwID", controllers.UpdateHomeworkByID)  // 修改作业信息
+	router.PATCH("/homework/:hwID", controllers.UpdateHomeworkByID)  // 判断作业是否完成
 
 	/********** 账单信息 **********/
 	router.POST("/bill", controllers.AddBill)                       // 增加账单信息
