@@ -1,5 +1,3 @@
-
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -11,8 +9,10 @@ CREATE TABLE `user`  (
   `user_id` int UNSIGNED NOT NULL COMMENT '用户ID(学号)',
   `username` varchar(50) NOT NULL COMMENT '用户姓名',
   `password` varchar(100) NOT NULL COMMENT '用户密码',
-  -- 邮箱、电话、性别
-  PRIMARY KEY (`user_id`) 
+  `email` varchar(32) COMMENT '用户邮箱' DEFAULT "",
+  `phone` varchar(16) COMMENT '用户电话' DEFAULT "",
+  `gender` varchar(8) COMMENT '用户性别' DEFAULT "",
+  PRIMARY KEY (`user_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- ----------------------------
 -- Table structure for course
@@ -48,9 +48,9 @@ CREATE TABLE `bill`  (
   `bill_id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '账单ID',
   `user_id` int UNSIGNED NOT NULL COMMENT '用户ID(学号)',
   `money` int  NOT NULL COMMENT '账单价格',
-  `bill_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '账单时间',
-  `type` varchar(100) NOT NULL COMMENT '账单类型',
-  PRIMARY KEY (`bill_id`) 
+  `classify` varchar(100) NOT NULL COMMENT '账单类型',
+  `bill_time` timestamp(0) DEFAULT CURRENT_TIMESTAMP(0) COMMENT '账单时间',
+  PRIMARY KEY (`bill_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- ----------------------------
 
@@ -63,7 +63,9 @@ CREATE TABLE `homework`  (
   `course_id` int UNSIGNED NOT NULL COMMENT '课程ID',
   `content` varchar(100) NOT NULL COMMENT '作业内容',
   `deadline` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '截止时间',
-  -- bool isfinished
+  -- MySQL 没有 BOOL 类型，用 tinyint 表示 BOOL
+  -- 0 表示 false，1 表示 true
+  `is_finished` tinyint DEFAULT 0,
   PRIMARY KEY (`hw_id`) 
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- ----------------------------

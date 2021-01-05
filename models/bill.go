@@ -11,12 +11,12 @@ type Bill struct {
 	UserID   int    `json:"user_id"`
 	Money    int    `json:"money"`
 	BillTime string `json:"bill_time"`
-	Tag      string `json:"tag"`
+	Classify string `json:"classify"`
 }
 
 // InsertBill 插入账单信息
 func InsertBill(b Bill) error {
-	_, err := db.Exec("INSERT INTO bill(bill_id, user_id, money, tag) values(?, ?, ?, ?)", b.BillID, b.UserID, b.Money, b.Tag)
+	_, err := db.Exec("INSERT INTO bill(bill_id, user_id, money, classify) values(?, ?, ?, ?)", b.BillID, b.UserID, b.Money, b.Classify)
 
 	if err != nil {
 		fmt.Printf("Insert bill failed, err:%v", err)
@@ -48,7 +48,7 @@ func GetAllBills(userID int) ([]Bill, error) {
 	}
 	for rows.Next() {
 		var bill Bill
-		if err = rows.Scan(&bill.BillID, &bill.UserID, &bill.Money, &bill.BillTime, &bill.Tag); err != nil {
+		if err = rows.Scan(&bill.BillID, &bill.UserID, &bill.Money, &bill.BillTime, &bill.Classify); err != nil {
 			fmt.Printf("Scan bill failed, err:%v", err)
 			return nil, err
 		}
@@ -61,7 +61,7 @@ func GetAllBills(userID int) ([]Bill, error) {
 func QueryBill(billID int) (*Bill, error) {
 	b := new(Bill)
 	row := db.QueryRow("SELECT * FROM bill where bill_id = ?", billID)
-	err := row.Scan(&b.BillID, &b.UserID, &b.Money, &b.Tag, &b.BillTime)
+	err := row.Scan(&b.BillID, &b.UserID, &b.Money, &b.Classify, &b.BillTime)
 
 	if err != nil {
 		fmt.Printf("Query bill failed, err:%v", err)
@@ -72,8 +72,8 @@ func QueryBill(billID int) (*Bill, error) {
 }
 
 // UpdateBill 修改账单信息
-func UpdateBill(billID int, money int, tag string) error {
-	_, err := db.Exec("UPDATE bill SET money = ?, tag = ? WHERE bill_id = ?", money, tag, billID)
+func UpdateBill(billID int, money int, classify string) error {
+	_, err := db.Exec("UPDATE bill SET money = ?, classify = ? WHERE bill_id = ?", money, classify, billID)
 
 	if err != nil {
 		fmt.Printf("Update bill failed, err:%v", err)

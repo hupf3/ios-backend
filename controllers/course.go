@@ -5,8 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/hupf3/ios-backend/models"
+	// "github.com/KianKw/ios-backend/models"
+	"github.com/gin-gonic/gin"
 )
 
 // GetAllCourses 获取所有课程
@@ -25,16 +26,16 @@ func CreateCourse(context *gin.Context) {
 	var course models.Course
 	if err := context.BindJSON(&course); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{
-			"status":   "failed",
-			"msg": "binding error",
+			"status": "failed",
+			"msg":    "binding error",
 		})
 		return
 	}
 	if _, err := models.CreateCourse(course); err != nil {
 		fmt.Println("error")
 		context.JSON(http.StatusBadRequest, gin.H{
-			"status":   "failed",
-			"msg": err.Error(),
+			"status": "failed",
+			"msg":    err.Error(),
 		})
 		return
 	}
@@ -77,16 +78,16 @@ func UpdateCourseByID(context *gin.Context) {
 	var course models.Course
 	if err := context.BindJSON(&course); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{
-			"status":   "failed",
-			"msg": "binding error",
+			"status": "failed",
+			"msg":    "binding error",
 		})
 		return
 	}
 	course.CourseID = courseID
 	if _, err := models.UpdateCourse(course); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{
-			"status":   "failed",
-			"msg": err.Error(),
+			"status": "failed",
+			"msg":    err.Error(),
 		})
 		return
 	}

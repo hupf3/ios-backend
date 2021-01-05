@@ -5,9 +5,11 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/hupf3/ios-backend/models"
+	// "github.com/KianKw/ios-backend/models"
+	"github.com/gin-gonic/gin"
 )
 
 // SignUp 注册
@@ -63,4 +65,43 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": "succeed", "msg": "登录成功！"})
+}
+
+// GetUserByID 获取用户信息
+func GetUserByID(context *gin.Context) {
+	param := context.Param("userID")
+	userID, _ := strconv.Atoi(param)
+
+	data, err := models.GetUserByID(userID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"status": "failed"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"status": "succeed", "data": data})
+}
+
+// UpdateUser 修改用户信息
+func UpdateUser(context *gin.Context) {
+	param := context.Param("userID")
+	userID, _ := strconv.Atoi(param)
+
+	var user models.User
+	if err := context.BindJSON(&user); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{
+			"status": "failed",
+			"msg":    "binding error",
+		})
+		return
+	}
+	user.UserID = userID
+	if _, err := models.UpdateUser(user); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{
+			"status": "failed",
+			"msg":    err.Error(),
+		})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"status": "succeed"})
 }

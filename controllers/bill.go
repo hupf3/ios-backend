@@ -7,8 +7,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
+
 	"github.com/hupf3/ios-backend/models"
+	// "github.com/KianKw/ios-backend/models"
+	"github.com/gin-gonic/gin"
 )
 
 // AddBill 增加账单
@@ -116,7 +118,7 @@ func UpdateBillByBillID(c *gin.Context) {
 		return
 	}
 
-	if err := models.UpdateBill(billID, b.Money, b.Tag); err != nil {
+	if err := models.UpdateBill(billID, b.Money, b.Classify); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
 			"msg":    err.Error(),
