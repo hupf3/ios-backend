@@ -47,9 +47,9 @@ DROP TABLE IF EXISTS `bill`;
 CREATE TABLE `bill`  (
   `bill_id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '账单ID',
   `user_id` int UNSIGNED NOT NULL COMMENT '用户ID(学号)',
-  `money` int  NOT NULL COMMENT '账单价格',
+  `money` float  NOT NULL COMMENT '账单价格',
   `classify` varchar(100) NOT NULL COMMENT '账单类型',
-  `bill_time` timestamp(0) DEFAULT CURRENT_TIMESTAMP(0) COMMENT '账单时间',
+  `bill_time` varchar(32) DEFAULT "2021-01-01" COMMENT '账单时间',
   PRIMARY KEY (`bill_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- ----------------------------

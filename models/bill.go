@@ -7,11 +7,11 @@ import (
 
 // Bill 账单
 type Bill struct {
-	BillID   int    `json:"bill_id"`
-	UserID   int    `json:"user_id"`
-	Money    int    `json:"money"`
-	BillTime string `json:"bill_time"`
-	Classify string `json:"classify"`
+	BillID   int     `json:"bill_id"`
+	UserID   int     `json:"user_id"`
+	Money    float32 `json:"money"`
+	BillTime string  `json:"bill_time"`
+	Classify string  `json:"classify"`
 }
 
 // InsertBill 插入账单信息
@@ -72,7 +72,7 @@ func QueryBill(billID int) (*Bill, error) {
 }
 
 // UpdateBill 修改账单信息
-func UpdateBill(billID int, money int, classify string) error {
+func UpdateBill(billID int, money float32, classify string) error {
 	_, err := db.Exec("UPDATE bill SET money = ?, classify = ? WHERE bill_id = ?", money, classify, billID)
 
 	if err != nil {
