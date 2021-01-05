@@ -11,7 +11,7 @@ import (
 // 数据库的信息
 const (
 	USERNAME = "root"      // 用户名
-	PASSWORD = "root"      // 密码
+	PASSWORD = "roott"     // 密码
 	DATABASE = "mosad"     // 数据库名字
 	PORT     = "3306"      // 端口
 	IP       = "127.0.0.1" // IP地址
