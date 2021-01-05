@@ -12,6 +12,7 @@ type Homework struct {
 	CourseID   int    `json:"course_id"`
 	Content    string `json:"content"`
 	Deadline   string `json:"deadline"`
+	IsFinished int    `json:"is_finished"`
 }
 
 // AddHomework 添加作业
@@ -64,7 +65,7 @@ func (h Homework) DeleteHomework() (rows int, err error) {
 // GetHomework 根据id获取对应的作业信息
 func (h Homework) GetHomework() (homework Homework, err error) {
 	row := db.QueryRow("SELECT * FROM homework WHERE hw_id=?", h.HomeworkID)
-	err = row.Scan(&homework.HomeworkID, &homework.UserID, &homework.CourseID, &homework.Content, &homework.Deadline)
+	err = row.Scan(&homework.HomeworkID, &homework.UserID, &homework.CourseID, &homework.Content, &homework.Deadline, &homework.IsFinished)
 	if err != nil {
 		fmt.Println("fail to get!")
 		return
@@ -81,7 +82,7 @@ func (h Homework) GetAllHomework() (homeworks []Homework, err error) {
 	for rows.Next() {
 		var homework Homework
 		// 遍历表中所有行的信息
-		rows.Scan(&homework.HomeworkID, &homework.UserID, &homework.CourseID, &homework.Content, &homework.Deadline)
+		rows.Scan(&homework.HomeworkID, &homework.UserID, &homework.CourseID, &homework.Content, &homework.Deadline, &homework.IsFinished)
 		// 将person添加到persons中
 		homeworks = append(homeworks, homework)
 	}
@@ -92,12 +93,12 @@ func (h Homework) GetAllHomework() (homeworks []Homework, err error) {
 
 // UpdateHomework 更新作业内容
 func (h Homework) UpdateHomework() (err error) {
-	stmt, err := db.Prepare("UPDATE homework SET content=? WHERE hw_id=?")
+	stmt, err := db.Prepare("UPDATE homework SET is_finished=? WHERE hw_id=?")
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	rs, err := stmt.Exec(h.Content, h.HomeworkID)
+	rs, err := stmt.Exec(h.IsFinished, h.HomeworkID)
 	if err != nil {
 		log.Fatalln(err)
 	}

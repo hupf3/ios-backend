@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/hupf3/ios-backend/controllers"
+	// "github.com/KianKw/ios-backend/controllers"
+	"github.com/gin-gonic/gin"
 )
 
 // SetRouter 设置路由
@@ -11,10 +12,10 @@ func SetRouter() *gin.Engine {
 
 	/********** 用户信息 **********/
 	// 注册与登录
-	router.POST("/signup", controllers.SignUp)
-	router.POST("/login", controllers.Login)
-	// 获取当前用户信息
-	// 修改信息
+	router.POST("/signup", controllers.SignUp)             // 注册
+	router.POST("/login", controllers.Login)               // 登录
+	router.GET("/users/:userID", controllers.GetUserByID)  // 获取用户信息
+	router.PATCH("/users/:userID", controllers.UpdateUser) // 修改用户信息
 
 	/********** 课程信息 **********/
 	router.POST("/course", controllers.CreateCourse)                  // 增加课程信息
