@@ -38,13 +38,30 @@ func DeleteBill(billID int) error {
 	return nil
 }
 
+// GetAllBills 获取全部账单
+func GetAllBills(userID int) ([]Bill, error) {
+	bills := make([]Bill, 0)
+	rows, err := db.Query("SELECT * FROM bill where user_id = ?", userID)
+	if err != nil {
+		fmt.Printf("Query bills failed, err:%v", err)
+		return nil, err
+	}
+	for rows.Next() {
+		var bill Bill
+		if err = rows.Scan(&bill.BillID, &bill.UserID, &bill.Money, &bill.BillTime, &bill.Tag); err != nil {
+			fmt.Printf("Scan bill failed, err:%v", err)
+			return nil, err
+		}
+		bills = append(bills, bill)
+	}
+	return bills, nil
+}
+
 // QueryBill 获取账单信息
 func QueryBill(billID int) (*Bill, error) {
 	b := new(Bill)
 	row := db.QueryRow("SELECT * FROM bill where bill_id = ?", billID)
 	err := row.Scan(&b.BillID, &b.UserID, &b.Money, &b.Tag, &b.BillTime)
-
-	// fmt.Println(&b.BillID)
 
 	if err != nil {
 		fmt.Printf("Query bill failed, err:%v", err)

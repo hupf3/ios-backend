@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"bytes"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -15,7 +18,7 @@ func AddBill(c *gin.Context) {
 	if err := c.BindJSON(&b); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
-			"error":  "binding error",
+			"msg":    "binding error",
 		})
 		return
 	}
@@ -23,7 +26,7 @@ func AddBill(c *gin.Context) {
 	if err := models.InsertBill(b); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
-			"error":  err.Error(),
+			"msg":    err.Error(),
 		})
 		return
 	}
@@ -39,7 +42,7 @@ func DeleteBillByBillID(c *gin.Context) {
 	if err := models.DeleteBill(billID); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
-			"error":  err.Error(),
+			"msg":    err.Error(),
 		})
 		return
 	}
@@ -58,15 +61,45 @@ func GetBillByBillID(c *gin.Context) {
 	if b, err = models.QueryBill(billID); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
-			"error":  err.Error(),
+			"msg":    err.Error(),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
+		"status": "succeed",
 		"data":   *b,
 	})
+}
+
+// GetAllBillsByUserID 获取某人的全部账单
+func GetAllBillsByUserID(c *gin.Context) {
+	// 读取json格式
+	var obj map[string]interface{}
+	buf, err := ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(buf, &obj)
+	if err != nil {
+		return
+	}
+	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(buf))
+	c.Next()
+
+	tmp := obj["user_id"].(float64)
+	var userID int = int(tmp)
+
+	bills := make([]models.Bill, 0)
+
+	if bills, err = models.GetAllBills(userID); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": "failed",
+			"msg":    err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"status": "succeed", "data": bills, "count": len(bills)})
 }
 
 // UpdateBillByBillID 修改账单
@@ -78,7 +111,7 @@ func UpdateBillByBillID(c *gin.Context) {
 	if err := c.BindJSON(&b); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
-			"error":  "binding error",
+			"msg":    "binding error",
 		})
 		return
 	}
@@ -86,7 +119,7 @@ func UpdateBillByBillID(c *gin.Context) {
 	if err := models.UpdateBill(billID, b.Money, b.Tag); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": "failed",
-			"error":  err.Error(),
+			"msg":    err.Error(),
 		})
 		return
 	}
