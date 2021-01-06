@@ -91,13 +91,51 @@ func (h Homework) GetAllHomework() (homeworks []Homework, err error) {
 	return
 }
 
+// GetUnfinishedHomeworkByUser 获取某人没有完成的作业
+func GetUnfinishedHomeworkByUser(userID int) ([]Homework, error) {
+	homeworks := make([]Homework, 0)
+	rows, err := db.Query("SELECT * FROM homework where user_id = ? AND is_finished = 0", userID)
+	if err != nil {
+		fmt.Printf("Query homeworks failed, err:%v", err)
+		return nil, err
+	}
+	for rows.Next() {
+		var homework Homework
+		if err = rows.Scan(&homework.HomeworkID, &homework.UserID, &homework.CourseID, &homework.Content, &homework.Deadline, &homework.IsFinished); err != nil {
+			fmt.Printf("Scan homework failed, err:%v", err)
+			return nil, err
+		}
+		homeworks = append(homeworks, homework)
+	}
+	return homeworks, nil
+}
+
+// GetHomeworksByUserAndCourse 获取某人某课程作业
+func GetHomeworksByUserAndCourse(userID int, courseID int) ([]Homework, error) {
+	homeworks := make([]Homework, 0)
+	rows, err := db.Query("SELECT * FROM homework where user_id = ? AND course_id = ?", userID, courseID)
+	if err != nil {
+		fmt.Printf("Query homeworks failed, err:%v", err)
+		return nil, err
+	}
+	for rows.Next() {
+		var homework Homework
+		if err = rows.Scan(&homework.HomeworkID, &homework.UserID, &homework.CourseID, &homework.Content, &homework.Deadline, &homework.IsFinished); err != nil {
+			fmt.Printf("Scan homework failed, err:%v", err)
+			return nil, err
+		}
+		homeworks = append(homeworks, homework)
+	}
+	return homeworks, nil
+}
+
 // UpdateHomework 更新作业内容
 func (h Homework) UpdateHomework() (err error) {
 	stmt, err := db.Prepare("UPDATE homework SET is_finished=? WHERE hw_id=?")
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	h.IsFinished = 1
 	rs, err := stmt.Exec(h.IsFinished, h.HomeworkID)
 	if err != nil {
 		log.Fatalln(err)

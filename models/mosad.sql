@@ -47,9 +47,9 @@ DROP TABLE IF EXISTS `bill`;
 CREATE TABLE `bill`  (
   `bill_id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '账单ID',
   `user_id` int UNSIGNED NOT NULL COMMENT '用户ID(学号)',
-  `money` int  NOT NULL COMMENT '账单价格',
+  `money` float  NOT NULL COMMENT '账单价格',
   `classify` varchar(100) NOT NULL COMMENT '账单类型',
-  `bill_time` timestamp(0) DEFAULT CURRENT_TIMESTAMP(0) COMMENT '账单时间',
+  `bill_time` varchar(32) DEFAULT "2021.01.01" COMMENT '账单时间',
   PRIMARY KEY (`bill_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- ----------------------------
@@ -62,7 +62,7 @@ CREATE TABLE `homework`  (
   `user_id` int UNSIGNED NOT NULL COMMENT '用户ID(学号)',
   `course_id` int UNSIGNED NOT NULL COMMENT '课程ID',
   `content` varchar(100) NOT NULL COMMENT '作业内容',
-  `deadline` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '截止时间',
+  `deadline` varchar(32) DEFAULT "2021.01.01" COMMENT '截止时间',
   -- MySQL 没有 BOOL 类型，用 tinyint 表示 BOOL
   -- 0 表示 false，1 表示 true
   `is_finished` tinyint DEFAULT 0,
