@@ -51,6 +51,37 @@ func GetHomeworkByID(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 }
 
+// GetUnfinishedHomeworkByUser 获取某人未完成的作业
+func GetUnfinishedHomeworkByUser(context *gin.Context) {
+	param := context.Param("userID")
+	userID, _ := strconv.Atoi(param)
+
+	data := make([]models.Homework, 0)
+	data, err := models.GetUnfinishedHomeworkByUser(userID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"status": "failed"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"status": "succeed", "data": data, "count": len(data)})
+}
+
+// GetHomeworksByUserAndCourse 获取某人某课程作业
+func GetHomeworksByUserAndCourse(context *gin.Context) {
+	param := context.Param("userID")
+	userID, _ := strconv.Atoi(param)
+
+	param = context.Param("courseID")
+	courseID, _ := strconv.Atoi(param)
+
+	data := make([]models.Homework, 0)
+	data, err := models.GetHomeworksByUserAndCourse(userID, courseID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"status": "failed"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"status": "succeed", "data": data, "count": len(data)})
+}
+
 // AddNewHomework 利用post方法新增数据
 func AddNewHomework(c *gin.Context) {
 	var h models.Homework

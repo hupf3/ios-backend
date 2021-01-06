@@ -1,9 +1,6 @@
 package controllers
 
 import (
-	"bytes"
-	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -73,34 +70,28 @@ func GetBillByBillID(c *gin.Context) {
 	})
 }
 
-// GetAllBillsByUserID 获取某人的全部账单
-func GetAllBillsByUserID(c *gin.Context) {
-	// 读取json格式
-	var obj map[string]interface{}
-	buf, err := ioutil.ReadAll(c.Request.Body)
+// GetAllBillsByUserID 获取某人账单
+func GetAllBillsByUserID(context *gin.Context) {
+	param := context.Param("userID")
+	userID, _ := strconv.Atoi(param)
+
+	data, err := models.GetAllBillsByUserID(userID)
 	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"status": "failed"})
 		return
 	}
-	err = json.Unmarshal(buf, &obj)
+	context.JSON(http.StatusOK, gin.H{"status": "succeed", "data": data, "count": len(data)})
+}
+
+// GetAllBills 获取全部账单
+func GetAllBills(context *gin.Context) {
+	data := make([]models.Bill, 0)
+	data, err := models.GetAllBills()
 	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"status": "failed"})
 		return
 	}
-	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(buf))
-	c.Next()
-
-	tmp := obj["user_id"].(float64)
-	var userID int = int(tmp)
-
-	bills := make([]models.Bill, 0)
-
-	if bills, err = models.GetAllBills(userID); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": "failed",
-			"msg":    err.Error(),
-		})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"status": "succeed", "data": bills, "count": len(bills)})
+	context.JSON(http.StatusOK, gin.H{"status": "succeed", "data": data, "count": len(data)})
 }
 
 // UpdateBillByBillID 修改账单

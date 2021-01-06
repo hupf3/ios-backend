@@ -30,6 +30,11 @@ func InsertUser(u User) error {
 // QueryUser 查询用户信息
 func QueryUser(userID int, password string) error {
 	user := new(User)
+	user.Username = ""
+	user.UserID = -1
+	user.Gender = ""
+	user.Email = ""
+	user.Phone = ""
 	row := db.QueryRow("SELECT password FROM user where user_id = ?", userID)
 	err := row.Scan(&user.Password)
 
@@ -42,7 +47,7 @@ func QueryUser(userID int, password string) error {
 		return errors.New("密码不正确！")
 	}
 
-	CurrentUserID = user.UserID
+	// CurrentUserID = user.UserID
 	return nil
 }
 
