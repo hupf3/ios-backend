@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/KianKw/ios-backend/models"
-	"github.com/KianKw/ios-backend/routes"
+	"github.com/hupf3/ios-backend/models"
+	"github.com/hupf3/ios-backend/routes"
 	// "github.com/hupf3/ios-backend/service"
 	// "github.com/hupf3/ios-backend/controllers"
 )

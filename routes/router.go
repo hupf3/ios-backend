@@ -2,8 +2,8 @@ package routes
 
 import (
 	// "github.com/hupf3/ios-backend/controllers"
-	"github.com/KianKw/ios-backend/controllers"
 	"github.com/gin-gonic/gin"
+	"github.com/hupf3/ios-backend/controllers"
 )
 
 // SetRouter 设置路由
