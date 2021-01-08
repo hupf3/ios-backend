@@ -25,13 +25,13 @@ func SetRouter() *gin.Engine {
 	router.PUT("/courses/:courseID", controllers.UpdateCourseByID)    // 修改课程信息
 
 	/********** 作业信息 **********/
-	router.POST("/homework", controllers.AddNewHomework)                                              // 增加作业信息
-	router.DELETE("/homework/:hwID", controllers.DeleteHomeworkByID)                                  // 删除作业信息
-	router.GET("/homework", controllers.GetHomeworks)                                                 // 获取全部作业
-	router.GET("/homework/:hwID", controllers.GetHomeworkByID)                                        // 获取作业信息
-	router.PUT("/homework/:hwID", controllers.UpdateHomeworkByID)                                     // 判断作业是否完成
-	router.GET("/users/:userID/courses/:courseID/homeworks", controllers.GetHomeworksByUserAndCourse) // 获取某人某课程作业
-	router.GET("/users/:userID/homeworks/unfinished", controllers.GetUnfinishedHomeworkByUser)        // 获取未完成作业信息
+	router.POST("/homework", controllers.AddNewHomework)             // 增加作业信息
+	router.DELETE("/homework/:hwID", controllers.DeleteHomeworkByID) // 删除作业信息
+	router.GET("/homework", controllers.GetHomeworks)                // 获取全部作业
+	router.GET("/homework/:hwID", controllers.GetHomeworkByID)       // 获取作业信息
+	router.PUT("/homework/:hwID", controllers.UpdateHomeworkByID)    // 判断作业是否完成
+	// router.GET("/users/:userID/courses/:courseID/homeworks", controllers.GetHomeworksByUserAndCourse) // 获取某人某课程作业
+	// router.GET("/users/:userID/homeworks/unfinished", controllers.GetUnfinishedHomeworkByUser)        // 获取未完成作业信息
 
 	/********** 账单信息 **********/
 	router.POST("/bills", controllers.AddBill)                          // 增加账单信息
