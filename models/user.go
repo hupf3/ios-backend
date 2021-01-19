@@ -14,6 +14,7 @@ type User struct {
 	Email  string `json:"email"`
 	Phone  string `json:"phone"`
 	Gender string `json:"gender"`
+	Avatar string `json:"avatar"`
 }
 
 // InsertUser 添加用户
@@ -35,6 +36,7 @@ func QueryUser(userID int, password string) error {
 	user.Gender = ""
 	user.Email = ""
 	user.Phone = ""
+	user.Avatar = ""
 	row := db.QueryRow("SELECT password FROM user where user_id = ?", userID)
 	err := row.Scan(&user.Password)
 
@@ -54,8 +56,8 @@ func QueryUser(userID int, password string) error {
 // GetUserByID 获取用户信息
 func GetUserByID(userID int) (User, error) {
 	u := new(User)
-	row := db.QueryRow("SELECT user_id, username, email, phone, gender FROM user where user_id = ?", userID)
-	err := row.Scan(&u.UserID, &u.Username, &u.Email, &u.Phone, &u.Gender)
+	row := db.QueryRow("SELECT user_id, username, password, email, phone, gender, avatar FROM user where user_id = ?", userID)
+	err := row.Scan(&u.UserID, &u.Username, &u.Password, &u.Email, &u.Phone, &u.Gender, &u.Avatar)
 
 	if err != nil {
 		fmt.Printf("Query user failed, err:%v\n", err)
@@ -83,10 +85,13 @@ func UpdateUser(u User) (User, error) {
 	if u.Gender == "" {
 		u.Gender = oldUser.Gender
 	}
+	if u.Avatar == "" {
+		u.Avatar = oldUser.Avatar
+	}
 
 	// stmt, err := db.Prepare("UPDATE user SET username = ?, location = ?, week_time = ?, term_time = ?, symbol = ? WHERE course_id = ?")
-	stmt, err := db.Prepare("UPDATE user SET username = ?, password = ?, email = ?, phone = ?, gender = ? WHERE user_id = ?")
-	_, err = stmt.Exec(u.Username, u.Password, u.Email, u.Phone, u.Gender, u.UserID)
+	stmt, err := db.Prepare("UPDATE user SET username = ?, password = ?, email = ?, phone = ?, gender = ?, avatar = ? WHERE user_id = ?")
+	_, err = stmt.Exec(u.Username, u.Password, u.Email, u.Phone, u.Gender, u.Avatar, u.UserID)
 
 	if err != nil {
 		fmt.Printf("Update user failed, err:%v", err)

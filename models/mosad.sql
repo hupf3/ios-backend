@@ -12,6 +12,7 @@ CREATE TABLE `user`  (
   `email` varchar(32) COMMENT '用户邮箱' DEFAULT "",
   `phone` varchar(16) COMMENT '用户电话' DEFAULT "",
   `gender` varchar(8) COMMENT '用户性别' DEFAULT "",
+  `avatar` varchar(256) COMMENT '用户头像' DEFAULT "",
   PRIMARY KEY (`user_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- ----------------------------

@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"strconv"
 
-	// "github.com/hupf3/ios-backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/hupf3/ios-backend/models"
 )

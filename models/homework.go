@@ -17,13 +17,13 @@ type Homework struct {
 
 // AddHomework 添加作业
 func (h Homework) AddHomework() (ID int, err error) {
-	stmt, err := db.Prepare("INSERT INTO homework(hw_id, user_id, course_id, content) VALUES (?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO homework(hw_id, user_id, course_id, content, deadline, is_finished) VALUES (?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		return
 	}
 
 	// 执行插入操作
-	rs, err := stmt.Exec(h.HomeworkID, h.UserID, h.CourseID, h.Content)
+	rs, err := stmt.Exec(h.HomeworkID, h.UserID, h.CourseID, h.Content, h.Deadline, h.IsFinished)
 	if err != nil {
 		return
 	}
@@ -94,7 +94,7 @@ func (h Homework) GetAllHomework() (homeworks []Homework, err error) {
 // GetUnfinishedHomeworkByUser 获取某人没有完成的作业
 func GetUnfinishedHomeworkByUser(userID int) ([]Homework, error) {
 	homeworks := make([]Homework, 0)
-	rows, err := db.Query("SELECT * FROM homework where user_id = ? AND is_finished = 0", userID)
+	rows, err := db.Query("SELECT * FROM homework WHERE user_id = ? AND is_finished = 0 ORDER BY deadline", userID)
 	if err != nil {
 		fmt.Printf("Query homeworks failed, err:%v", err)
 		return nil, err
@@ -113,7 +113,7 @@ func GetUnfinishedHomeworkByUser(userID int) ([]Homework, error) {
 // GetHomeworksByUserAndCourse 获取某人某课程作业
 func GetHomeworksByUserAndCourse(userID int, courseID int) ([]Homework, error) {
 	homeworks := make([]Homework, 0)
-	rows, err := db.Query("SELECT * FROM homework where user_id = ? AND course_id = ?", userID, courseID)
+	rows, err := db.Query("SELECT * FROM homework where user_id = ? AND course_id = ? ORDER BY is_finished, deadline", userID, courseID)
 	if err != nil {
 		fmt.Printf("Query homeworks failed, err:%v", err)
 		return nil, err

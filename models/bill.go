@@ -10,13 +10,13 @@ type Bill struct {
 	BillID   int     `json:"bill_id"`
 	UserID   int     `json:"user_id"`
 	Money    float32 `json:"money"`
-	BillTime string  `json:"bill_time"`
 	Classify string  `json:"classify"`
+	BillTime string  `json:"bill_time"`
 }
 
 // InsertBill 插入账单信息
 func InsertBill(b Bill) error {
-	_, err := db.Exec("INSERT INTO bill(bill_id, user_id, money, classify) values(?, ?, ?, ?)", b.BillID, b.UserID, b.Money, b.Classify)
+	_, err := db.Exec("INSERT INTO bill(bill_id, user_id, money, classify, bill_time) values(?, ?, ?, ?, ?)", b.BillID, b.UserID, b.Money, b.Classify, b.BillTime)
 
 	if err != nil {
 		fmt.Printf("Insert bill failed, err:%v", err)
@@ -41,14 +41,14 @@ func DeleteBill(billID int) error {
 // GetAllBills 获取全部账单
 func GetAllBills() ([]Bill, error) {
 	bills := make([]Bill, 0)
-	rows, err := db.Query("SELECT * FROM bill")
+	rows, err := db.Query("SELECT * FROM bill ORDER BY bill_time DESC")
 	if err != nil {
 		fmt.Printf("Query bills failed, err:%v", err)
 		return nil, err
 	}
 	for rows.Next() {
 		var bill Bill
-		if err = rows.Scan(&bill.BillID, &bill.UserID, &bill.Money, &bill.BillTime, &bill.Classify); err != nil {
+		if err = rows.Scan(&bill.BillID, &bill.UserID, &bill.Money, &bill.Classify, &bill.BillTime); err != nil {
 			fmt.Printf("Scan bill failed, err:%v", err)
 			return nil, err
 		}
@@ -60,14 +60,14 @@ func GetAllBills() ([]Bill, error) {
 // GetAllBillsByUserID 获取某人账单
 func GetAllBillsByUserID(userID int) ([]Bill, error) {
 	bills := make([]Bill, 0)
-	rows, err := db.Query("SELECT * FROM bill where user_id = ?", userID)
+	rows, err := db.Query("SELECT * FROM bill WHERE user_id = ? ORDER BY bill_time DESC", userID)
 	if err != nil {
 		fmt.Printf("Query bills failed, err:%v", err)
 		return nil, err
 	}
 	for rows.Next() {
 		var bill Bill
-		if err = rows.Scan(&bill.BillID, &bill.UserID, &bill.Money, &bill.BillTime, &bill.Classify); err != nil {
+		if err = rows.Scan(&bill.BillID, &bill.UserID, &bill.Money, &bill.Classify, &bill.BillTime); err != nil {
 			fmt.Printf("Scan bill failed, err:%v", err)
 			return nil, err
 		}
