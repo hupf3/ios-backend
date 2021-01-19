@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/hupf3/ios-backend/controllers"
-	"github.com/hupf3/ios-backend/service"
+	"github.com/hupf3/ios-backend/models"
+	"github.com/hupf3/ios-backend/routes"
 )
 
 func main() {
